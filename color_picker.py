@@ -4,6 +4,7 @@ from tkinter import colorchooser
 
 def choose_color():
     color = colorchooser.askcolor()
+    print(color)
     canvas.itemconfig(rec, fill=color[1])
 
 
