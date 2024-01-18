@@ -10,11 +10,15 @@ def handler():
 
 class Ball:
     def __init__(self, canvas, color):
+        """
+        конструктор кульки
+        :param canvas: полотно на якому створюємо гру
+        :param color: колір кульки
+        """
         self.canvas = canvas
-        self.id = self.canvas.create_oval(10, 10, 25, 25, fill=color)
-        self.canvas.move(self.id, 250, 150)
-        self.canvas_height = self.canvas.winfo_height()
-        self.canvas_width = self.canvas.winfo_width()
+        self.id = self.canvas.create_oval(10, 10, 25, 25, fill=color) # створюємо кульку
+        self.canvas.move(self.id, 250, 150)  # переміщуємо в точку, з якої почнеться гра.
+        self.canvas_width = self.canvas.winfo_width()  # визначаємо ширину вікна
         self.dx = 1
         self.dy = 0
 
@@ -22,13 +26,18 @@ class Ball:
         return self.canvas.coords(self.id)
 
     def draw(self):
-        self.canvas.move(self.id, self.dx, self.dy)
+        """
+        задаємо зміщення кульки на dx пікселів
+        перевіряємо чи кулька не виходить за межі екрану
+        якщо виходить, то змінюємо рух на протилежний
+        """
+        self.canvas.move(self.id, self.dx, 0)
         pos = self.get_position()
-        print(pos)
-        if pos[0] < 0:
-            self.dx = 1
+        print(pos) # друкуємо координати кульки, щоб зрозуміти параметри виходу за межі вікна
         if pos[2] > self.canvas_width:
-            self.dx = -1
+            self.dx = - self.dx
+        if pos[0] < 0:
+            self.dx = - self.dx
 
 
 tk = Tk()
@@ -39,12 +48,13 @@ tk.wm_attributes("-topmost", 1)  # always on top
 canvas = Canvas(tk, width=500, height=600, bd=0, highlightthickness=0)
 canvas.pack()
 canvas.update()
-ball = Ball(canvas, "red")
+ball = Ball(canvas, 'red')
 tk.protocol("WM_DELETE_WINDOW", handler)
 run = True
 while run:
-    ball.draw()
+    ball.draw()   # запускаємо рух кульки
     tk.update_idletasks()
     tk.update()
     time.sleep(0.005)
 tk.destroy()
+

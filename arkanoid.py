@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 import time
 import random
 
@@ -18,8 +19,6 @@ class Board:
         self.speed = 8
 
     def move_right(self, event):
-        # print("right")
-        # print(event)
         pos = self.get_position()
         self.x = self.speed
         if pos[2] + self.x <= self.canvas_width:
@@ -58,9 +57,9 @@ class Ball:
         if pos[1] <= 0:
             # self.y = 1
             self.y = -self.y
-        if pos[3] >= self.canvas_height:
-            # self.y = -1
-            self.y = -self.y
+        # if pos[3] >= self.canvas_height:
+        #     # self.y = -1
+        #     self.y = -self.y
         if pos[0] <= 0:
             # self.x = 1
             self.x = -self.x
@@ -69,6 +68,9 @@ class Ball:
 
     def get_position(self):
         return self.canvas.coords(self.id)
+
+    def delete(self):
+        return self.canvas.delete(self.id)
 
 
 class Brick:
@@ -83,33 +85,15 @@ class Brick:
         self.canvas.delete(self.id)
 
 
-def handler():
-    global run
-    run = False
-
-
-tk = Tk()
-tk.title("Arkanoid")
-# tk.config(relief=RAISED, bd=10)
-tk.resizable(None, None)  # it doesn't allow to change the size of the window
-tk.wm_attributes("-topmost", 1)  # always on top
-canvas = Canvas(tk, width=500, height=600, bd=0, highlightthickness=0)
-canvas.pack()
-board = Board(canvas, "blue")
-ball = Ball(canvas, "red")
-colors = ["black", "red", "green", "blue", "cyan", "yellow", "magenta", "azure", "brown",
-          "coral", "grey", "khaki", "olive", "orange", "lavender", "ivory", "navy",
-          "orchid", "plum"]
-bricks = []
-brick_width = canvas.winfo_width()/10
-for i in range(10):
-    for j in range(3):
-        brick = Brick(canvas, brick_width, random.choice(colors))
-        canvas.move(brick.id, i*brick_width, j*brick_width/2)
-        bricks.append(brick)
-        canvas.update()
-canvas.bind_all("<KeyPress-Left>", board.move_left)
-canvas.bind_all("<KeyPress-Right>", board.move_right)
+def init_bricks(width):
+    bricks_init = []
+    for i in range(10):
+        for j in range(3):
+            brick = Brick(canvas, brick_width, random.choice(colors))
+            canvas.move(brick.id, i * brick_width, j * brick_width / 2)
+            bricks_init.append(brick)
+            canvas.update()
+    return bricks_init
 
 
 def is_ball_hit_brick(ball, brick):
@@ -129,10 +113,42 @@ def is_ball_hit_board(ball, board):
     return False
 
 
+def handler():
+    global run
+    run = False
+
+
+tk = Tk()
+tk.title("Arkanoid")
+# tk.config(relief=RAISED, bd=10)
+tk.resizable(None, None)  # it doesn't allow to change the size of the window
+tk.wm_attributes("-topmost", 1)  # always on top
+canvas = Canvas(tk, width=500, height=600, bd=0, highlightthickness=0)
+canvas.pack()
+board = Board(canvas, "blue")
+ball = Ball(canvas, "red")
+colors = ["black", "red", "green", "blue", "cyan", "yellow", "magenta", "azure", "brown",
+          "coral", "grey", "khaki", "olive", "orange", "lavender", "ivory", "navy",
+          "orchid", "plum"]
+
+brick_width = canvas.winfo_width()/10
+bricks = init_bricks(brick_width)
+canvas.bind_all("<KeyPress-Left>", board.move_left)
+canvas.bind_all("<KeyPress-Right>", board.move_right)
 tk.protocol("WM_DELETE_WINDOW", handler)
 run = True
 while run:
     ball.draw()
+    if ball.get_position()[3] >= canvas.winfo_height():
+        answer = messagebox.askquestion("The end", "Do you want to continue?")
+        if answer == "yes":
+            for brick in bricks:
+                brick.delete()
+            bricks = init_bricks(width=brick_width)
+            ball.delete()
+            ball = Ball(canvas, 'red')
+        else:
+            break
     if is_ball_hit_board(ball, board):
         ball.y = -ball.y
     tk.update_idletasks()
@@ -142,5 +158,6 @@ while run:
             bricks.remove(brick)
             ball.y = -ball.y
     time.sleep(0.005)
-tk.destroy()
-# tk.mainloop()
+messagebox.askquestion("The end", "Do you want to continue?")
+#tk.destroy()
+#tk.mainloop()
