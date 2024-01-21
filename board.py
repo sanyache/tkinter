@@ -27,7 +27,8 @@ class Board:
 
     # реалізуйте функції, які будуть переміщувати платформу вліво-вправо
     def move_right(self, event):
-        print("right")
+        # event - обов'язковий аргумент, який надає метод bind_all
+        print("right", event)
 
     def move_left(self, event):
         print("left")
@@ -89,7 +90,6 @@ def handler():
 
 tk = Tk()
 tk.title("Arkanoid")
-# tk.config(relief=RAISED, bd=10)
 tk.resizable(None, None)  # it doesn't allow to change the size of the window
 tk.wm_attributes("-topmost", 1)  # always on top
 canvas = Canvas(tk, width=500, height=600, bd=0, highlightthickness=0)
@@ -97,7 +97,11 @@ canvas.pack()
 board = Board(canvas, "blue")
 ball = Ball(canvas, "red")
 
-
+"""
+bind_all - метод canvas, який зв'язує подію із її обробником
+в даному випадку при натисненні клавіш "вліво" - "вправо" 
+викликаються відповідні методи обробники подій
+"""
 canvas.bind_all("<KeyPress-Left>", board.move_left)
 canvas.bind_all("<KeyPress-Right>", board.move_right)
 tk.protocol("WM_DELETE_WINDOW", handler)
