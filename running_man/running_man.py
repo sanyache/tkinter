@@ -7,9 +7,9 @@ import time
 class Sprite:
     def __init__(self, image, ROW, COLUMN):
         self.sprites = []
-        self.height, self.width = image.size
-        self.height /= COLUMN
-        self.width /= ROW
+        self.height_img, self.width_img = image.size
+        self.height = self.height_img/COLUMN
+        self.width = self.width_img/ROW
         for i in range(4):
             for j in range(12):
                 img = image.crop((self.height*j, self.width*i, self.height+self.height*j,
@@ -35,6 +35,9 @@ class Sprite:
 class Hero:
     def __init__(self, sprite, canvas):
         self.canvas = canvas
+        self.canvas.update()
+        self.canvas_width = canvas.winfo_width()
+        self.canvas_height = canvas.winfo_height()
         self.sprite = sprite
         self.x = 200
         self.y = 100
@@ -69,15 +72,14 @@ class Hero:
         self.move(sprite)
 
     def move_right(self, event):
-        self.canvas.delete(self.hero_id)
+        pos = self.get_position()
         sprite = self.sprite.get_right_list()[self.right_ind]
-        if self.x < 400:
+        if self.x + self.sprite.width <= (self.canvas_width+50):
             self.x += self.dx
         self.right_ind = (self.right_ind + 1) % COLUMN
         self.move(sprite)
 
     def move_back(self, event):
-        self.canvas.delete(self.hero_id)
         sprite = self.sprite.get_back_list()[self.back_ind]
         if self.y > 0:
             self.y -= self.dy
@@ -85,9 +87,8 @@ class Hero:
         self.move(sprite)
 
     def move_forward(self, event):
-        self.canvas.delete(self.hero_id)
         sprite = self.sprite.get_forward_list()[self.forward_ind]
-        if self.y < 450:
+        if self.y + self.sprite.height < self.canvas_height-60:
             self.y += self.dy
         self.forward_ind = (self.forward_ind + 1) % COLUMN
         self.move(sprite)
@@ -120,6 +121,7 @@ canvas.pack()
 # canvas.create_image(0, 0, image=bg_img, anchor="nw")
 
 image = Image.open("pngwing.png")
+print(image)
 ROW = 4
 COLUMN = 12
 sprite = Sprite(image, ROW, COLUMN)

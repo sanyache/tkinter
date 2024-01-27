@@ -12,29 +12,30 @@ class Board:
         self.canvas.update()
         self.canvas_height = self.canvas.winfo_height()
         self.canvas_width = self.canvas.winfo_width()
-
-        self.x = self.canvas_width/2 - self.board_width/2
-        self.y = self.canvas_height - 40
-        self.canvas.move(self.id, self.x, self.y)
-        self.speed = 8
+        self.canvas.move(self.id,
+                         self.canvas_width/2 - self.board_width/2,
+                         self.canvas_height - 40)
+        self.dx = 8
 
     def move_right(self, event):
         pos = self.get_position()
-        self.x = self.speed
-        if pos[2] + self.x <= self.canvas_width:
-            self.draw()
+        if pos[2] <= self.canvas_width:
+            self.draw(self.dx)
 
     def move_left(self, event):
+        #self.canvas.update()
         pos = self.get_position()
-        self.x = -self.speed
-        if pos[0] - self.x >= 0:
-            self.draw()
+        if pos[0] >= 0:
+            self.draw(-self.dx)
 
-    def draw(self):
-        self.canvas.move(self.id, self.x, 0)
+    def draw(self, dx):
+        self.canvas.move(self.id, dx, 0)
 
     def get_position(self):
         return self.canvas.coords(self.id)
+
+    def delete(self):
+        self.canvas.delete(self.id)
 
 
 class Ball:
@@ -70,7 +71,7 @@ class Ball:
         return self.canvas.coords(self.id)
 
     def delete(self):
-        return self.canvas.delete(self.id)
+        self.canvas.delete(self.id)
 
 
 class Brick:
@@ -100,7 +101,6 @@ def is_ball_hit_brick(ball, brick):
     ball_pos = ball.get_position()
     brick_pos = brick.get_position()
     if brick_pos[0] <= ball_pos[0] <= brick_pos[2] and brick_pos[1] <= ball_pos[1] <= brick_pos[3]:
-        brick.delete()
         return True
     return False
 
@@ -108,7 +108,8 @@ def is_ball_hit_brick(ball, brick):
 def is_ball_hit_board(ball, board):
     ball_pos = ball.get_position()
     board_pos = board.get_position()
-    if board_pos[0] <= ball_pos[0] <= board_pos[2] and board_pos[1] <= ball_pos[3]:
+    if (board_pos[0] <= ball_pos[2] and ball_pos[0] <= board_pos[2]
+            and board_pos[1] <= ball_pos[3] and ball_pos[1] <= board_pos[3]) and ball.y > 0:
         return True
     return False
 
@@ -147,6 +148,10 @@ while run:
             bricks = init_bricks(width=brick_width)
             ball.delete()
             ball = Ball(canvas, 'red')
+            board.delete()
+            board = Board(canvas, "blue")
+            canvas.bind_all("<KeyPress-Left>", board.move_left)
+            canvas.bind_all("<KeyPress-Right>", board.move_right)
         else:
             break
     if is_ball_hit_board(ball, board):
@@ -155,9 +160,9 @@ while run:
     tk.update()
     for brick in bricks:
         if is_ball_hit_brick(ball, brick):
+            brick.delete()
             bricks.remove(brick)
             ball.y = -ball.y
     time.sleep(0.005)
-messagebox.askquestion("The end", "Do you want to continue?")
 #tk.destroy()
 #tk.mainloop()

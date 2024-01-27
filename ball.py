@@ -19,8 +19,9 @@ class Ball:
         self.id = self.canvas.create_oval(10, 10, 25, 25, fill=color) # створюємо кульку
         self.canvas.move(self.id, 250, 150)  # переміщуємо в точку, з якої почнеться гра.
         self.canvas_width = self.canvas.winfo_width()  # визначаємо ширину вікна
-        self.dx = 1
-        self.dy = 0
+        self.canvas_height = self.canvas.winfo_height() # визначаємо висоту вікна
+        self.dx = 1  # задаємо змішення по горизонталі
+        self.dy = 0  # задаємо змішення по вертикалі
 
     def get_position(self):
         return self.canvas.coords(self.id)
@@ -31,7 +32,7 @@ class Ball:
         перевіряємо чи кулька не виходить за межі екрану
         якщо виходить, то змінюємо рух на протилежний
         """
-        self.canvas.move(self.id, self.dx, 0)
+        self.canvas.move(self.id, self.dx, self.dy)
         pos = self.get_position()
         print(pos) # друкуємо координати кульки, щоб зрозуміти параметри виходу за межі вікна
         if pos[2] > self.canvas_width:
