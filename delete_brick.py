@@ -60,11 +60,8 @@ def is_ball_hit_brick(ball, brick):
     :param brick: цеглинка
     :return: True - якщо була взаємодія, False - якщо не було взаємодії.
     """
-    ball_pos = ball.get_position()
-    brick_pos = brick.get_position()
-    if brick_pos[0] <= ball_pos[0] <= brick_pos[2] and brick_pos[1] <= ball_pos[1] <= brick_pos[3]:
-        return True
-    return False
+    pass
+
 
 tk = Tk()
 tk.title("Arkanoid")
