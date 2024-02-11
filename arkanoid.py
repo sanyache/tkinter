@@ -23,7 +23,6 @@ class Board:
             self.draw(self.dx)
 
     def move_left(self, event):
-        #self.canvas.update()
         pos = self.get_position()
         if pos[0] >= 0:
             self.draw(-self.dx)
@@ -54,7 +53,6 @@ class Ball:
     def draw(self):
         self.canvas.move(self.id, self.x, self.y)
         pos = self.get_position()
-        # print(pos)
         if pos[1] <= 0:
             # self.y = 1
             self.y = -self.y
