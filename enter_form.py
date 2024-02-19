@@ -1,3 +1,4 @@
+import tkinter.font
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
@@ -50,11 +51,13 @@ age_spinbox.grid(row=3, column=0, ipady=5)
 
 grade_label = Label(user_info_frame, text="Клас", font="Ariel, 14 bold")
 grade_combobox = ttk.Combobox(user_info_frame, values=["8-а", "8-і", "8-б", "8-в"], font="Ariel 12")
-grade_combobox.grid(row=3, column=1, padx=10, pady=5, ipady=5)
-grade_label.grid(row=2, column=1, padx=10, pady=5)
-
+grade_combobox.grid(row=3, column=1, ipady=5)
+grade_label.grid(row=2, column=1, pady=5)
 add_data_frame = LabelFrame(frame, text="Додаткова інформація", font=10)
-add_data_frame.grid(row=1, column=0, sticky="news", padx=20, pady=10)
+add_data_frame.grid(row=1, column=0, padx=20, pady=10)
+
+font = tkinter.font.Font(family="Ariel", size=12)
+window.option_add("*TCombobox*Listbox*Font", font)
 
 military_label = Label(add_data_frame, text="Військовий облік", font="Ariel, 14 bold")
 military_var = BooleanVar()
@@ -86,7 +89,7 @@ accept_check = Checkbutton(accept_frame,
                            text="Я погоджуюся на збір особистих даних",
                            font="Ariel 14 bold")
 accept_frame.grid(row=2, column=0, sticky="news", padx=20, pady=10)
-accept_check.grid(row=0, column=0, pady=10, sticky=NS)
+accept_check.grid(row=0, column=0, pady=10)
 
 button = Button(frame, text="Відправити", command=get_data, font="Ariel, 14 bold")
 button.grid(row=3, column=0, sticky="news", pady=20, padx=20)
