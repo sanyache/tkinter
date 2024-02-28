@@ -4,9 +4,10 @@ from tkinter import *
 class ProductOrder:
     def __init__(self, title, index):
         self.lb = Label(base_menu, text=title, font="Ariel 16")
-        self.ent = Entry(base_menu, font=16)
+        self.ent = Entry(base_menu, font=16, justify="right")
         self.ent.insert(END, '0')
-        self.val = Entry(base_menu, font=16)
+        self.val = Entry(base_menu, font=16, justify="right")
+        self.val.insert(END, '0')
         self.scale = Scale(base_menu, orient=HORIZONTAL, font=16, command=self.calculate_amount)
         self.lb.grid(row=index + 1, column=0, sticky="ews", padx=5, pady=5)
         self.ent.grid(row=index + 1, column=1, sticky="ews", padx=5, pady=5)
@@ -50,7 +51,7 @@ frame = Frame(tk)
 frame.pack()
 
 base_menu = LabelFrame(frame, text="Основне меню", font=10)
-base_menu.grid(row=0, column=0, padx=10, pady=20)
+base_menu.grid(row=0, column=0, padx=20, pady=20, ipadx=20, ipady=10)
 
 title_column = ["Найменування", "Ціна", "Кількість", "Вартість"]
 for index, title in enumerate(title_column):
@@ -64,7 +65,7 @@ for index, title in enumerate(title_product):
     products.append(product)
 
 add_menu = LabelFrame(frame, text="Додаткове меню", font=10)
-add_menu.grid(row=0, column=1, padx=10, pady=20, sticky="news")
+add_menu.grid(row=0, column=1, padx=20, pady=20, sticky="news")
 
 add_label = Label(add_menu, text="Добавки до піци", font="Ariel 14")
 add_label.grid(row=0, column=0, padx=10)
@@ -76,7 +77,7 @@ for index, product in enumerate(adding_product):
     add_products.append(add_product)
 
 bottom_block = LabelFrame(frame, text="Обрахунок замовлення")
-bottom_block.grid(row=1, column=0, columnspan=2, sticky=EW, padx=10, pady=20)
+bottom_block.grid(row=1, column=0, columnspan=2, sticky=EW, padx=20, pady=20, ipady=5)
 bottom_block.columnconfigure((0, 1, 2, 3, 4, 5), weight=1)
 amount_label = Label(bottom_block, text="Сума", font="Ariel 14 bold")
 amount_total = Entry(bottom_block, font=10)
