@@ -4,20 +4,24 @@ from tkinter import messagebox
 from tkinter import ttk
 
 
+
+
 def get_data():
     data = dict()
     if accept_var.get():
         data['first_name'] = first_name_entry.get()
         data['last_name'] = last_name_entry.get()
         data['gender'] = gender_combobox.get()
-        data['military'] = military_var.get()
+        data['military'] = 'Так' if military_var.get() else 'Ні'
         data['student_id'] = id_spinbox.get()
         data['grade'] = grade_combobox.get()
         data['subgroup'] = subgroup_spinbox.get()
+        print(data)
+
     else:
         messagebox.showwarning(title="Увага!", message="Не погоджено збір особистих даних")
-    print(data)
-    return data
+
+
 
 
 window = Tk()
@@ -39,7 +43,7 @@ last_name_entry = Entry(user_info_frame, font="Ariel 12")
 last_name_label.grid(row=0, column=1)
 last_name_entry.grid(row=1, column=1, ipady=5)
 
-gender_label = Label(user_info_frame, text="Пол", font="Ariel, 14 bold")
+gender_label = Label(user_info_frame, text="Стать", font="Ariel, 14 bold")
 gender_combobox = ttk.Combobox(user_info_frame, values=["", "Чол", "Жін"], font="Ariel 12")
 gender_label.grid(row=0, column=2)
 gender_combobox.grid(row=1, column=2, ipady=5)
@@ -47,7 +51,7 @@ gender_combobox.grid(row=1, column=2, ipady=5)
 age_label = Label(user_info_frame, text="Вік", font="Ariel, 14 bold")
 age_spinbox = Spinbox(user_info_frame, from_=10, to=17, font="Ariel 12")
 age_label.grid(row=2, column=0, ipady=5)
-age_spinbox.grid(row=3, column=0, ipady=5)
+age_spinbox.grid(row=3, column=0, ipady=5, pady=20)
 
 grade_label = Label(user_info_frame, text="Клас", font="Ariel, 14 bold")
 grade_combobox = ttk.Combobox(user_info_frame, values=["8-а", "8-і", "8-б", "8-в"], font="Ariel 12")
