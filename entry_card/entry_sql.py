@@ -5,6 +5,17 @@ from tkinter import ttk
 import sqlite3
 #  snap install sqlitebrowser
 
+def clear_entries():
+    first_name_entry.delete(0, END)
+    last_name_entry.delete(0, END)
+    gender_combobox.set('')
+    age_spinbox.delete(0, END)
+    grade_combobox.set('')
+    military_var.set(False)
+    id_spinbox.delete(0, END)
+    subgroup_spinbox.delete(0, END)
+    accept_var.set(False)
+
 def get_data():
     data = dict()
     if accept_var.get():
@@ -26,6 +37,8 @@ def get_data():
         cursor.execute(data_insert_query, data_insert_tuple)
         conn.commit()
         conn.close()
+        messagebox.showinfo(title="Успіх", message="Дані успішно збережено")
+        clear_entries()
     else:
         messagebox.showwarning(title="Увага!", message="Не погоджено збір особистих даних")
 

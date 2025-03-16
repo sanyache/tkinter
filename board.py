@@ -28,10 +28,10 @@ class Board:
     # реалізуйте функції, які будуть переміщувати платформу вліво-вправо
     def move_right(self, event):
         # event - обов'язковий аргумент, який надає метод bind_all
-        print("right", event)
+        self.draw(self.dx)
 
     def move_left(self, event):
-        print("left")
+        self.draw(self.dx)
 
     def draw(self, dx):
         self.canvas.move(self.id, dx, 0)

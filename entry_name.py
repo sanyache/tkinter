@@ -1,7 +1,9 @@
 from tkinter import *
+from tkinter import messagebox
 
 
 def print_name(name):
+    messagebox.showinfo('info', 'Hello {}!'.format(name))
     print("Hello {}! How are you?".format(name))
 
 

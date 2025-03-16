@@ -43,13 +43,14 @@ canvas.pack()
 canvas.update()
 brick_width = canvas.winfo_width()/10  # обчислюємо ширину цеглинки.
 color = 'blue'  # задаємо колір цеглинки
-for i in range(10):
-    for j in range(3):
+for i in range(3):
+    for j in range(10):
         brick = Brick(canvas, brick_width, color)
         """
         рухаємо об'єкт на канвас, вказуємо який об'єкт та задаємо зміщення по x та y
         """
-        canvas.move(brick.id, brick_width*i, brick_width/2*j)
+        canvas.move(brick.id, brick_width*j, brick_width/2*i)
+        time.sleep(0.5)
         canvas.update()
 tk.protocol("WM_DELETE_WINDOW", handler)
 run = True

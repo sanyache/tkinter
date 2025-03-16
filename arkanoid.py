@@ -59,11 +59,11 @@ class Ball:
         # if pos[3] >= self.canvas_height:
         #     # self.y = -1
         #     self.y = -self.y
-        if pos[0] <= 0:
+        if pos[0] <= 0 or pos[2] >= self.canvas_width:
             # self.x = 1
             self.x = -self.x
-        if pos[2] >= self.canvas_width:
-            self.x = -self.x
+        #if pos[2] >= self.canvas_width:
+        #    self.x = -self.x
 
     def get_position(self):
         return self.canvas.coords(self.id)
@@ -162,5 +162,5 @@ while run:
             bricks.remove(brick)
             ball.y = -ball.y
     time.sleep(0.005)
-#tk.destroy()
+tk.destroy()
 #tk.mainloop()

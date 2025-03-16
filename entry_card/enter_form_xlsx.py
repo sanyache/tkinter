@@ -42,6 +42,7 @@ def get_data():
 
         messagebox.showinfo(title="Успіх", message="Дані успішно збережено")
         clear_entries()
+
     else:
         messagebox.showwarning(title="Увага!", message="Не погоджено збір особистих даних")
 

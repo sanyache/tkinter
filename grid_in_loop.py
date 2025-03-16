@@ -19,6 +19,11 @@ class ProductOrder:
         self.val.insert(END, str(int(event)*int(self.ent.get())))
 
 
+def total_amount():
+    amount = 0
+    for product in products:
+        amount += int(product.val.get())
+
 tk = Tk()
 tk.title("Замовлення піци")
 
