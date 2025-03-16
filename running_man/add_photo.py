@@ -4,13 +4,6 @@ from PIL import Image, ImageTk
 import time
 
 
-
-
-def handler():
-    global run
-    run = False
-
-
 tk = Tk()
 tk.title("Running man")
 tk.config(relief=RAISED, bd=10)
@@ -21,7 +14,5 @@ canvas.pack()
 bg_img = Image.open("man.png")
 bg_img = ImageTk.PhotoImage(bg_img)
 canvas.create_image(0, 0, image=bg_img, anchor="nw")
-
-tk.protocol("WM_DELETE_WINDOW", handler)
 
 tk.mainloop()
